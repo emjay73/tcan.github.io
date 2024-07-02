@@ -187,12 +187,28 @@
 		/* Adjust as needed */
 		height: 36px;
 		/* Adjust as needed */
-		background-image: url('./resources/Favicon.ico');
+		/* background-image: url('./resources/Favicon.ico'); */
+		background-image: url('./resources/images/can.png');
 		background-size: contain;
 		/* Ensure the SVG fits within the span */
 		background-repeat: no-repeat;
 		/* Prevent tiling */
 		vertical-align: middle;
+		/* Align with the text */
+	}
+
+	.icon-button {
+		display: inline-block;
+		width: 20px;
+		/* Adjust as needed */
+		height: 20px;
+		/* Adjust as needed */
+		/* background-image: url('./assets/arxiv_logo.svg'); */
+		background-size: contain;
+		/* Ensure the SVG fits within the span */
+		background-repeat: no-repeat;
+		/* Prevent tiling */
+		vertical-align: bottom;
 		/* Align with the text */
 	}
 
@@ -204,22 +220,43 @@
 		font-variation-settings:
 			"wdth" 100;
 	}
+
+	.link-btn{
+		background-color: #3c3939;
+		padding: 7px 13px;
+		border-radius: 20px;
+		margin-top: 0px;
+        margin-left: 2px;
+        margin-right: 2px;
+		color: white;
+	}
+	.link-btn:visited{
+		color: white;
+	}
 </style>
 
 <html>
 
 <head>
-	<title> <b>VEGS: View Extrapolation of Urban Scenes in 3D Gaussian Splatting using Learned Priors</b></title>
-	<meta property="og:image" content="./resources/vegs_icon.png" />
+	<title> <b>TCAN: Animating Human Images with Temporally Consistent Pose Guidance Using Diffusion Models</b></title>
+	<!-- <meta property="og:image" content="./resources/vegs_icon.png" /> -->
+	<!-- <meta property="og:image" content="./resources/images/can.png" /> -->
 	<!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
 	<meta property="og:title"
-		content="VEGS: View Extrapolation of Urban Scenes in 3D Gaussian Splatting using Learned Priors" />
-	<meta property="og:description" content="Neural rendering-based urban scene reconstruction methods commonly rely on images collected from driving vehicles with cameras facing and moving forward. 
-											 Although these methods can successfully synthesize from views similar to training camera trajectory, directing the novel view outside the training camera distribution does not guarantee on-par performance. 
-											 In this paper, we tackle the Extrapolated View Synthesis (EVS) problem by evaluating the reconstructions on views such as looking left, right or downwards with respect to training camera distributions. 
-											 To improve rendering quality for EVS, we initialize our model by constructing dense LiDAR map, and propose to leverage prior scene knowledge such as surface normal estimator and large-scale diffusion model. 
-											 Qualitative and quantitative comparisons demonstrate the effectiveness of our methods on EVS. 
-											 To the best of our knowledge, we are the first to address the EVS problem in urban scene reconstruction.
+		content="TCAN: Animating Human Images with Temporally Consistent Pose Guidance Using Diffusion Models" />
+	<meta property="og:description" content="Pose-driven human-image animation diffusion models have shown the remarkable capability of realistic human video synthesis. 
+	Despite the promising results achieved by previous approaches, challenges
+	persist in achieving temporally consistent animation and ensuring robustness 
+	against off-the-shelf pose detectors. In this paper, we present	TCAN, 
+	the pose-driven human image animation method robust to erroneous pose and consistent over time. 
+	In contrast to previous methods, we utilize the pre-trained ControlNet without fine-tuning to leverage its
+	pre-acquired knowledge from a vast amount of pose-image-caption pairs.
+	To keep the ControlNet frozen, we adapt LoRA to UNet layers, enabling 
+	the network to align the latent space between the pose and appearance
+	features. Additionally, by introducing an additional temporal layer to the
+	ControlNet, we enhance robustness with respect to outliers of the pose
+	detector. Extensive experiments demonstrate that the proposed method
+	can achieve promising results in video synthesis tasks, encompassing various poses.
 " />
 
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -267,8 +304,9 @@
 					<td align=center width=300px>
 						<center>
 							<span class="icon"></span> <!-- Add this line to include the icon -->
-							<span style="font-size:36px"> VEGS : View Extrapolation of Urban Scenes in 3D Gaussian
-								Splatting using Learned Priors</span>
+							<span style="font-size:36px"> TCAN: Animating Human Images with
+								<br>
+								Temporally Consistent Pose Guidance Using Diffusion Models</span>
 						</center>
 					</td>
 				</tr>
@@ -289,8 +327,7 @@
 				<tr>
 					<td align=center width=300px>
 						<center>
-							<span style="font-size:24px"><a href="https://deepshwang.github.io/">Sungwon
-									Hwang*</a></span>
+							<span style="font-size:24px"><a href="https://github.com/rlawjdghek">Jeongho Kim*</a></span>
 							<br>
 							<span style="font-size:14px">KAIST</span>
 						</center>
@@ -304,20 +341,9 @@
 					</td>
 					<td align=center width=300px>
 						<center>
-							<span style="font-size:24px"><a href="https://keh0t0.github.io/">Taewoong Kang</a></span>
+							<span style="font-size:24px"><a href="https://ssuhan.github.io/">Junsoo Lee</a></span>
 							<br>
-							<span style="font-size:14px">KAIST</span>
-						</center>
-					</td>
-				</tr>
-			</table>
-			<table align=center width=600px>
-				<tr>
-					<td align=center width=300px>
-						<center>
-							<span style="font-size:24px"><a href="https://vegs3d.github.io">Jayeon Kang</a></span>
-							<br>
-							<span style="font-size:14px">Ghent University</span>
+							<span style="font-size:14px">Naver</span>
 						</center>
 					</td>
 					<td align=center width=300px>
@@ -330,6 +356,7 @@
 					</td>
 				</tr>
 			</table>
+			
 			<table align=center width=600px>
 				<tr>
 					<td align=center width=600px>
@@ -341,8 +368,33 @@
 			</table>
 		</table>
 	</center>
-
 	<center>
+		<table>
+			<tr style="height: 60px;">
+                <td align=center> <span style="font-size:12pt">
+                    <center>
+                        <a class="link-btn" href=""> <img src="assets/pdf-logo.svg" class="icon-button" alt="icon-pdf"> &nbsp Paper</a>
+                    </center>
+            </td>
+				<td align=center> <span style="font-size:12pt">
+						<center>
+							<a class="link-btn" href=""> <img src="assets/arxiv-logomark-small-white.svg" class="icon-button" alt="icon-arxiv"> &nbsp arXiv</a>
+						</center>
+				</td>
+				<td align=center> <span style="font-size:12pt">
+						<center>
+							<a class="link-btn" href=""> <img src="assets/github-mark-white.svg" class="icon-button" alt="icon-github"> &nbsp Code</a>
+						</center>
+				</td>
+				<!-- <td align=center> <span style="font-size:12pt">
+                    <center>
+                        <a class="link-btn" href="https://www.cvlibs.net/datasets/kitti-360/"> <img src="assets/pics-icon.svg" class="icon-button" alt="icon-Data"> &nbsp Data (KITTI-360)</a>
+                    </center>
+            	</td> -->
+			</tr>
+		</table>
+	</center>
+	<!-- <center>
 		<table>
 			<tr>
 				<td align=center> <span style="font-size:18pt">
@@ -357,11 +409,12 @@
 				</td>
 			</tr>
 		</table>
-	</center>
+	</center> -->
 
 	<center>
-		<table align=center width=1200px>
-			<tr>
+		<table align=center width=1000px>
+			<h2 style="color:dimgrey;">Motion Transfer To Various Identities</h2> 
+			<!-- <tr>
 				<td>
 					<center>
 						<span style="font-size:16px"><b>Our method aligns and flattens Gaussian covariances to scene
@@ -369,12 +422,14 @@
 					</center>
 				</td>
 			</tr>
-			<br>
+			<br> -->
 			<tr>
 				<td width=1200px>
 					<center>
 						<video controls autoplay muted loop>
-							<source src="./resources/videos/final_evs_demo_v4.mp4" type="video/mp4">
+							<!-- <source src="./resources/videos/final_evs_demo_v4.mp4" type="video/mp4"> -->
+							<source src="./resources/videos/comparison_tiktok_1200.mp4" type="video/mp4">
+							
 							Your browser does not support the video tag.
 						</video>
 					</center>
@@ -409,20 +464,32 @@
 	</center> -->
 
 	<br>
-	<center>
+	<!-- <center>
 		<table align=center width=1200px>
 			<tr>
 				<td align=center width=1200px>
-					<span style="font-size:16px"><b>Our method jointly reconstructs static scene with dynamic objects
-							such as cars.</b></span>
+					<span style="font-size:20px">
+											
+						Our method can transfer motion information to various identities, including animation characters.  
+						<br>Although the proportion of the animation is differ from that of the human, the motion is effectively transmitted. 
+					</span>
 				</td>
 			</tr>
 		</table>
-	</center>
+	</center> -->
 	<center>
 		<table align=center width=1200px>
+			<h2 style="color:dimgrey;">Motion Transfer To Animation Characters</h2> 
 			<tr>
-				<td width=600px>
+				<td width=1200px>
+					<center>
+						<video controls autoplay muted loop>
+							<source src="./resources/videos/comparison_online_1200.mp4" type="video/mp4">
+							Your browser does not support the video tag.
+						</video>
+					</center>
+				</td>
+				<!-- <td width=600px>
 					<center>
 						<video controls autoplay muted loop>
 							<source src="./resources/videos/3_render_0_0_0_dynamic_small.mp4" type="video/mp4">
@@ -437,10 +504,10 @@
 							Your browser does not support the video tag.
 						</video>
 					</center>
-				</td>
+				</td> -->
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td width=600px>
 					<center>
 						<video controls autoplay muted loop>
@@ -457,7 +524,7 @@
 						</video>
 					</center>
 				</td>
-			</tr>
+			</tr> -->
 		</table>
 	</center>
 
