@@ -640,20 +640,20 @@
 	<hr>
 	<table align=center width=1200px>
 		<center>
-			<h1><b>Paper Summary at a Glance</b></h1>
+			<h2 style="color:dimgrey;">Overall Architecture</h2>
 		</center>
-		<h2 style="color:dimgrey;">Problem Statement</h2>
+		<!-- <h2 style="color:dimgrey;">Overall Pipeline</h2> -->
 
-		<!-- </table> -->
+		<!-- </table>
 		<!-- <br> -->
 		<!-- <table align=center width=1200px> -->
 		<!-- <center>
 			<h1>Overall Pipeline</h1>
 		</center> -->
 		<tr>
-			<td>
+			
 				<!-- <center> -->
-			<td>
+			
 				<!-- <br> -->
 				<!-- <ul class="checkmark-list">
 					<li>Previous urban scene reconstruction methods commonly rely on images collected from driving
@@ -674,8 +674,29 @@
 				<!-- <ul class="checkmark-list">
 					<li>We tackle the Extrapolated View Synthesis (EVS) problem on views such as <b>looking left, right or downwards from train camera distributions.</b></li>
 				</ul> -->
-				We tackle the Extrapolated View Synthesis (EVS) problem on views such as <b>looking left, right or downwards from train camera distributions.</b></li>
-				
+				<h3 style="color:dimgrey;">Problem Definition</h3>
+				<p>Given a source image and a driving video with F frames, our aim is to generate a video that:</p>
+				<ul>
+					<li>Incorporateing the foreground appearance from the source image.</li>
+					<li>Following the pose of the driving video.</li>
+					<li>Maintaining consistency in the background of the source image.</li>
+				</ul>
+
+				<h3 style="color:dimgrey;">Our approach</h3>
+				<p>We propose TCAN, a novel human image animation framework based on the diffusion model that maintains temporal consistency and generalizes well to unseen domains. Our newly proposed modules are as follows:</p>
+				<ul>
+					<li><strong>Appearance-Pose Adaptation (APPA layer)</strong>: Preserving the appearance of the source image while maintaining pose information from frozen ControlNet.</li>
+					<li><strong>Temporal ControlNet</strong>: Preventing the generated video from collapsing due to abrupt and erroneous pose changes</li>
+					<li><strong>Pose-driven Temperature Map</strong>: Reducing the flickering in the static region by smoothing the attention scores in the temporal layer at the inference stage.</li>
+				</ul>
+
+				<!-- <p>TCAN follows a two-stage training framework widely adopted in current diffusion-based video generation works:</p>
+				<ul>
+					<li>The first stage involves transferring the source image at the image level to match the pose of each frame in driving video (Appearance UNet and APPA layer are trained).</li>
+					<li>The second stage only trains temporal layers that align such image-level features into a continuous video sequence (Temporal ControlNet and Temporal layers in SD U-Net are trained). </li>
+				</ul> -->
+
+									
 				<!-- Neural rendering-based urban scene reconstruction methods commonly rely on images collected from driving vehicles with cameras facing and moving forward.
 					Although these methods can successfully synthesize from views similar to training camera trajectory,
 					directing the novel view outside the training camera distribution does not guarantee on-par performance.
@@ -701,461 +722,9 @@
 			<!-- <td align=center width=1200px> -->
 			<td>
 				<center>
-			<td><img class="round" style="width:1200px" src="./resources/teaser_projectpage.png" /></td>
-			</center>
-			</td>
-		</tr>
-	</table>
-
-	<br>
-	<table align=center width=1200px>
-		<!-- <center> -->
-		<h2 style="color:dimgrey;">Overall Pipeline</h2>
-		<!-- </center> -->
-		
-		<!-- </table> -->
-		<!-- <br> -->
-		<!-- <table align=center width=1200px> -->
-		<!-- <center>
-			<h1>Overall Pipeline</h1>
-		</center> -->
-
-		<tr>
-			<td>
-				<center>
-			<td>
-				We initialize gaussian means using dense <b>LiDAR map</b> and <b>point cloud from SfM</b>.
-				We leveraged prior scene knowledge, such as <b>surface normal estimation</b>
-						and <b>large-scale diffusion models</b>, to improve rendering quality for EVS.
-				<!-- <ul class="checkmark-list"> -->
-					<!-- <li>We initialize gaussian means using dense <b>LiDAR map</b> and <b>point cloud from SfM</b>.</li> -->
-					<!-- <li>To improve rendering quality for EVS, prior scene knowledge, such as <b>surface normal estimation</b>
-						and <b>large-scale diffusion models</b>, is leveraged.</li> -->
-					<!-- <li>We leveraged prior scene knowledge, such as <b>surface normal estimation</b>
-						and <b>large-scale diffusion models</b>, to improve rendering quality for EVS.</li> -->
-					<!-- <li>To utilize surface normal prior, we propose Covariance Guidance Loss.
-						<ul class="checkmark-list">
-							<li>\(\mathcal{L}_{\text{cov}} = \lambda_{\text{axis}} \mathcal{L}_{\text{axis}} + (1 -
-								\lambda_{\text{axis}}) \mathcal{L}_{\text{scale}}\)</li>
-							<li>\(L_{axis}\) is minimized when any of the three covariance axes aligns with the normal
-								vector. </li>
-							<li>\(L_{scale}\) is minimized when scale of the axis aligned to normal is minimized,
-								inducing the covariance to mimic an underlying surface. </li>							
-						</ul>
-					</li>
-					<li>To utilize large-scale diffusion model, we exploit the score distillation.
-						<ul class="" checkmark-list">
-							<li>\(\nabla_{M} \mathcal{L}_{\text{score}} = -
-								\textbf{s}_{\theta}(\hat{\mathcal{I}}_{\tau}, \tau) \approx \nabla_{\textbf{x}}
-								\text{log} p(\textbf{x})\)</li>
-							<li>\(\hat{\mathcal{I}_{\tau}} = \sqrt{\bar{\alpha}_{\tau}} \hat{\mathcal{I}} + (1 -
-								\bar{\alpha}_{\tau})\epsilon\), where \(\hat{\mathcal{I}}\) is a rendering from our
-								model \(M\) on EVS.</li>
-						</ul>
-					</li>
-					<li>To the best of our knowledge, we are the first to address the EVS problem in urban scene
-						reconstruction.</li> -->
-				<!-- </ul> -->
-
-				<!-- To improve rendering quality for EVS, we initialize our model by constructing dense LiDAR map, and
-					propose to leverage prior scene knowledge such as surface normal estimator and large-scale diffusion
-					model.
-					\(\nabla_{M} \mathcal{L}_{\text{score}} = - \textbf{s}_{\theta}(\hat{\mathcal{I}}_{\tau}, \tau) \approx \nabla_{\textbf{x}} \text{log} p(\textbf{x})\)
-					where \(\hat{\mathcal{I}_{\tau}} = \sqrt{\bar{\alpha}_{\tau}} \hat{\mathcal{I}} + (1 - \bar{\alpha}_{\tau})\epsilon\) and \(\hat{\mathcal{I}}\) is a rendering from our model \(M\) on EVS. -->
-				<!-- Qualitative and quantitative comparisons demonstrate the effectiveness of our methods on EVS. -->
-
-			</td>
-			</center>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<br>
-			</td>
-		</tr>
-		<tr>
-			<!-- <td align=center width=1200px> -->
-			<td>
-				<center>
-			<td><img class="round" style="width:1200px" src="./resources/pipeline_v3.png" /></td>
-			</center>
-			</td>
-		</tr>
-	</table>
-
-	<hr>
-	<table align=center width=1200px>
-		<!-- <center><h1><b>The Lazy Covariance Optimization Problem</b></h1></center> -->
-		<center>
-			<h1><b>Covariance Guidance with Surface Normal Prior</b></h1>
-		</center>
-
-		<tr>
-			<td>
-			<td class="spaced-heading">
-				<h2 style="color:dimgrey;">The Lazy Covariance Optimization (LCO) Problem</h2>
-			</td>
-			</td>
-		</tr>
-		<tr> </tr>
-		<tr>
-			<td>
-				<center>
-			<td>
-				<ul class="checkmark-list">
-					<!-- <li>The shape and orientation of learned covariances tend to over-fit to a certain viewing angle.</li> -->
-					<!-- <li>LCO problem refers to the case where the covariance is trained to cover the the frustum of a training pixel with a minimal optimization effort.</li>
-					<li>As a result, these covariances are prone to produce unwanted cavity on an underlying scene
-						surface.</li> -->
-					LCO problem refers to the case where the covariance is trained to cover the the frustum of a training pixel with a minimal optimization effort.
-					As a result, these covariances are prone to produce unwanted cavity on an underlying scene surface.
-					<!-- <li>The right-most ellipsoid in (a) shows such a case.</li> -->
-				</ul>
-			</td>
-			</center>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<center>
-			<td class="figure-cell"><img class="round" style="width:1200px"
-				src="./resources/normal_prior_crop.png" /></td>
-					<!-- src="./resources/normal_prior_merge_v6.1.png" /></td> -->
-			</center>
-			</td>
-		</tr>
-		<tr>
-			<td>
-			<td>
-				<h2 style="color:dimgrey;">Covariance Guidance Loss</h2>
-			</td>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<center>
-			<td>
-				<!-- <ul class="checkmark-list"> -->
-					Our key idea is to guide the orientation and shape of covariances to make them behave like the
-						underlying scene surface. Specifically, we propose \(\mathcal{L}_{cov}\) =\(\mathcal{L}_{axis}\) + \(\mathcal{L}_{scale}\), where
-						\(\mathcal{L}_{axis}\) aligns covariance axes to a surface normal vector and 
-							\(\mathcal{L}_{scale}\) minimizes the scale along the covariance axis aligned with surface normal
-
-					<!-- <li>(b) Visualizing \(L_{axis}\) for different alignment between normal and covariances. \(L_{axis}\) is minimized when an axis aligns with the normal.</li> -->
-					<!-- \(\mathcal{L}_{\text{scale}} = \sum\limits_{i\in \{\text{0,1,2}\}} {\left|\tilde{\mathbf{S}}[i]\left(\tilde{\mathbf{Q}}[:, i] \cdot G(\mathcal{I}) \right)\right|}/3,\) -->
-					<!-- \(\tilde{\textbf{q}} = \prod_{j \in \mathcal{N}} \mathcal{S}\left( \textbf{q}_{I}, \textbf{q}_j, w_{j} \right), \ \ \ w_{j} = \alpha_{j} \prod_{l=1}^{j-1} (1 - \alpha_{l})\) -->
-					<!-- \(\mathcal{L}_{\text{axis}} = \sum\limits_{i\in \{\text{0,1,2}\}} {|\tilde{\mathbf{Q}}[:, i] \cdot G(\mathcal{I})|}/3,\) -->
-				<!-- </ul> -->
-
-				<!-- The shape and orientation of learned covariances tend to over-fit to a certain viewing angle,
-					which we hypothesize that the covariance is trained to cover the the frustum of a training pixel with a
-					minimal optimization effort.
-					As a result, these covariances are prone to produce unwanted cavity on an underlying scene surface,
-					which is revealed when viewed from unobserved angles.
-					Our key idea is to guide the orientation and shape of covariances to make them behave like the
-					underlying scene surface.
-					
-					(b) Visualizing \(L_{axis}\) for different alignment between normal and covariances.
-					\(L_{axis}\) is minimized when an axis aligns with the normal. See supplements for detailed derivation. -->
-			</td>
-			</center>
-			</td>
-		</tr>
-	</table>
-
-	<!-- <hr> -->
-	<!-- <table align=center width=1200px>
-		<center><h1>Real-Time View Synthesis</h1></center>
-		<h2 class="grey-heading_nerf">Relighting</h2>
-		<tr>
-			<td>
-				Due to our novel depth oracle sampling scheme, DONeRF achieves quality similar to <a href="https://www.matthewtancik.com/nerf">NeRF</a>, which uses a total of 256 samples.
-				At only 4 samples (comparison to NeRF below), DONeRF achieves a speedup of 20x-48x at the same quality. 
-        Click / Drag the Sliders to compare various outputs between DONeRF, NeRF and Ground Truth Blender renderings.
-			</td>
-		</tr>
-	</table>
-	<br> -->
-
-	<br>
-	<!-- <h2 style="color:dimgrey;">Qualitative Ablation Results on \(L_{cov}\)</h2> -->
-	<table align=center width=400px>
-		<tr>
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 44 -->
-					<!-- <img src="./resources/1_diffusion_only_normal_ablation.png" width=400px  alt="Diffusion Only"> -->
-					<img src="./resources/1_free_diffusion_only_normal_ablation.png" width=400px alt="w/o Lcov">
-					<img src="./resources/1_free_ours_normal_ablation.png" width=400px alt="VEGS">
-				</div>
-			</td>
-			</center>
-			</td>
-			<!-- </tr>
-		<tr> -->
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 39 -->
-					<img src="./resources/2_free_diffonly_0000008926_Rx0_Rz-60_tz0.png" width=400px alt="w/o Lcov">
-					<img src="./resources/2_free_ours_0000008926_Rx0_Rz-60_tz0.png" width=400px alt="VEGS">
-				</div>
-				</div>
-			</td>
-			</center>
-			</td>
-			<!-- </tr>
-		<tr> -->
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 57 -->
-					<img src="./resources/3_free_diffonly_0000009646_Rx-16_Rz0_tz1.6.png" width=400px alt="w/o Lcov">
-					<img src="./resources/3_free_ours_0000009646_Rx-16_Rz0_tz1.6.png" width=400px alt="VEGS">
-				</div>
-			</td>
-			</center>
-			</td>
-		</tr>
-	</table>
-
-	<!--  -->
-	<br>
-	<hr>
-
-	<table align=center width=1200px>
-		<center>
-			<h1><b>Score Distillation from Large-scale Diffusion Model</b></h1>
-		</center>
-		<tr>
-			<td>
-				Noise (score) predicted from a diffusion model \( \textbf{s}_{\theta} \) is proportional to the
-				log-gradient of a prior distribution \( p(\textbf{x}) \), or \( \textbf{s}_{\theta}(\textbf{x}_{\tau},
-				\tau) \approx - \nabla_{\textbf{x}} \text{log} p(\textbf{x}) \).
-				Thus, optimizing \( \textbf{x}_{\tau} \) to yield smaller score pushes \( \textbf{x} \) to our prior
-				distribution \( p(\cdot) \). We model our prior distribution using <a
-					href="https://github.com/CompVis/stable-diffusion">Stable Diffusion</a> fine-tuned with <a
-					href="https://arxiv.org/abs/2106.09685">LoRA</a>.
-			</td>
-		</tr>
-	</table>
-	<br>
-
-	<table align=center width=1200px>
-
-		<tr>
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 44 -->
-					<img src="./resources/diffusion_baseline_1.png" width=400px alt="w.o/ score loss">
-					<img src="./resources/diffusion_ours_1.png" width=400px alt="w/ score loss">
-				</div>
-			</td>
-			</center>
-			</td>
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 39 -->
-					<img src="./resources/diffusion_baseline_2.png" width=400px alt="w.o/ score loss">
-					<img src="./resources/diffusion_ours_2.png" width=400px alt="w/ score loss">
-				</div>
-				</div>
-			</td>
-			</center>
-			</td>
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 57 -->
-					<img src="./resources/diffusion_baseline_3.png" width=400px alt="w.o/ score loss">
-					<img src="./resources/diffusion_ours_3.png" width=400px alt="w/ score loss">
-				</div>
-			</td>
-			<!--  -->
-
-			<br>
-			
-
-			<table align=center width=1200px>
-				<center>
-					<hr>
-					<h1><b>Comparison to Baseline</b></h1>
-				</center>
-				<tr>
-					<td>
-						<!-- <ul class="checkmark-list">
-							<li>Qualitative comparison on KITTI-360 for extrapolated view synthesis.</li>
-							<li>EVS-D and EVS-LR refers to extrapolated views facing downwards and left/right, respectively.</li>
-						</ul> -->
-						EVS-D and EVS-LR refers to extrapolated views facing downwards and left/right, respectively.
-						
-					</td>
-				</tr>
-			</table>
-			<br>
-		</tr>
-	</table>
-	<table align=center width=1200px>
-
-		<tr>
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 44 -->
-					<img src="./resources/cp_down1_mars_0000004230_Rx_3A -12_7C Rz_3A 0 _7C tz_3A 0.12.png" width=400px
-						alt="MARS">
-					<img src="./resources/cp_down1_bn_00325_frame_00004230.0.png" width=400px alt="BlockNeRF++">
-					<img src="./resources/cp_down1_3dgs_0000004230_Rx-12_Rz0_tz1.2000000000000002.png" width=400px
-						alt="3DGS">
-					<img src="./resources/cp_down1_ours_0000004230_Rx-12_Rz0_tz1.2000000000000002.png" width=400px
-						alt="VEGS">
-				</div>
-			</td>
-			</center>
-			</td>
-
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 44 -->
-					<img src="./resources/cp_down2_mars_0000003622_Rx_3A -16_7C Rz_3A 0 _7C tz_3A 0.16.png" width=400px
-						alt="MARS">
-					<img src="./resources/cp_down2_01957_frame_00003622.0.png" width=400px alt="BlockNeRF++">
-					<img src="./resources/cp_down2_3dgs_2013_05_28_drive_0006_sync_static_0000003251_0000003634-0000003622_Rx-16_Rz0_tz1.6.png"
-						width=400px alt="3DGS">
-					<img src="./resources/cp_down2_ours_2013_05_28_drive_0006_sync_static_0000003251_0000003634-0000003622_Rx-16_Rz0_tz1.6.png"
-						width=400px alt="VEGS">
-				</div>
-			</td>
-			</center>
-			</td>
-
-			<td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">
-					<!-- 39 -->
-					<img src="./resources/cp_lr2_mars_0000003497_Rx_3A 0_7C Rz_3A 60 _7C tz_3A 0.png" width=400px
-						alt="MARS">
-					<img src="./resources/cp_lr2_bn_00312_frame_00003497.0.png" width=400px alt="BlockNeRF++">
-					<img src="./resources/cp_lr2_splat_0000003497_Rx0_Rz-60_tz0_440.png" width=400px alt="3DGS">
-					<img src="./resources/cp_lr2_ours_0000003497_Rx0_Rz-60_tz0.png" width=400px alt="VEGS">
-				</div>
-				</div>
-			</td>
-			</center>
-			</td>
-
-			<!-- <td align=center width=400px>
-				<center>
-			<td>
-				<div class="b-dics" style="width: 400px">					
-					<img src="./resources/cp_lr3_mars_0000002173_Rx_3A 0_7C Rz_3A 30 _7C tz_3A 0.png" width=400px
-						alt="MARS">
-					<img src="./resources/cp_lr3_00310_frame_00002173.0.png" width=400px alt="BlockNeRF++">
-					<img src="./resources/cp_lr3_3dgs_2013_05_28_drive_0009_syncstatic0000002117_0000002353_0000002173_Rx0_Rz-30_tz0.png" width=400px
-						alt="3DGS">
-					<img src="./resources/cp_lr3_ours_2013_05_28_drive_0009_syncstatic0000002117_0000002353_0000002173_Rx0_Rz-30_tz0.png" width=400px
-						alt="VEGS">
-				</div>
-			</td>
-			</center>
-			</td> -->
-		</tr>
-		<tr>
-			<td align=center width=400px>
-				<center>
-			<th>
-				EVS-D
-			</th>
-			</center>
-			</td>
-			<td align=center width=400px>
-				<center>
-			<th>
-				EVS-D
-			</th>
-			</center>
-			</td>
-			<td align=center width=400px>
-				<center>
-			<th>
-				EVS-LR
-			</th>
-			</center>
-			</td>
-		</tr>
-	</table>
-	<br>
-
-	<!--	
-	<table align=center width=1200px>
-		<br>
-		<tr>
-			<center>
-				<span style="font-size:28px"><a href=''>[Slides]</a>
-				</span>
-			</center>
-		</tr>
-	</table>
-
-	<hr>
-
-	<center><h1>Code</h1></center>
-
-	<table align=center width=420px>
-		<center>
-			<tr>
-				<td>
-				</td>
-			</tr>
-		</center>
-	</table>
-	<table align=center width=400px>
-		<tr>
-			<td align=center width=400px>
-				<center>
-					<td><img class="round" style="width:450px" src="./resources/method_diagram.png"/></td>
+					<td><img class="round" style="width:1200px" src="./resources/images/overview_v4.jpg" /></td>
 				</center>
 			</td>
 		</tr>
 	</table>
-	<table align=center width=1200px>
-		<center>
-			<tr>
-				<td>
-					Short description if wanted
-				</td>
-			</tr>
-		</center>
-	</table>
-	
-	<table align=center width=1200px>
-		<br>
-		<tr><center>
-			<span style="font-size:28px">&nbsp;<a href='https://github.com/richzhang/webpage-template'>[GitHub]</a>
-			</center>
-		</span>
-	</table>
-	-->
-	<br>
-	<!--
-  <img-comparison-slider>
-    <img slot="before" src="./resources/method_diagram.png" />
-    <img slot="after" src="./resources/teaser.png" />
-  </img-comparison-slider>
--->
-</body>
-
 </html>
